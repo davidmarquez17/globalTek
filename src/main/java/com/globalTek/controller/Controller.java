@@ -35,14 +35,6 @@ public class Controller {
     @Autowired
     private FacturaService facturaService;
     
-    @GetMapping(value = "/listaModelMap")
-    @ResponseBody
-    public String listarModelMap(ModelMap model) {
-        model.addAttribute("titulo", "asdasfasf");
-
-        return "lista";
-    }
-    
     @RequestMapping
     public List<Factura> getFacturas(ModelMap model){
         return facturaService.getList();
