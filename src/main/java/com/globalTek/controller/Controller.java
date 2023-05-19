@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.globalTek.service.FacturaService;
 import com.globalTek.models.Factura;
-import java.util.Date;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
+
 
 /**
  *
@@ -35,21 +34,6 @@ public class Controller {
     
     @Autowired
     private FacturaService facturaService;
-    /*
-    @GetMapping({"/index", "/", "/home"})
-    public String index(ModelMap model){
-        model.addAttribute("titulo", "spring");
-        return "index";
-    }
-    */
-    @RequestMapping({"/index", "/", "/home"})
-    public ModelAndView bike() {
-
-        ModelAndView modelAndView = new ModelAndView("index");
-        modelAndView.addObject("titulo", "TOP TOP MANI");
-
-        return modelAndView;
-    }
     
     @GetMapping(value = "/listaModelMap")
     @ResponseBody
@@ -81,9 +65,9 @@ public class Controller {
     @PutMapping
     public Factura update(@RequestBody Factura factura){
         if(factura.getSubTotal() > 0){
-            factura.setTotalDescuento((int) (factura.getSubTotal() * ((double) factura.getDescuento()/100)));
-            factura.setTotalImpuesto((int) (factura.getSubTotal() - factura.getTotalDescuento()) * ((double) factura.getIva()/100));
-            factura.setTotal(factura.getSubTotal() - factura.getTotalDescuento() + factura.getTotalImpuesto());
+            factura.setTotalDescuento((int) (factura.getSubTotal() * ((double) factura.getDescuento()/100))); //calcula el descuento
+            factura.setTotalImpuesto((int) (factura.getSubTotal() - factura.getTotalDescuento()) * ((double) factura.getIva()/100)); // calcula el impuesto
+            factura.setTotal(factura.getSubTotal() - factura.getTotalDescuento() + factura.getTotalImpuesto()); //calcula el total
             return facturaService.update(factura);
         }
         else return null;
